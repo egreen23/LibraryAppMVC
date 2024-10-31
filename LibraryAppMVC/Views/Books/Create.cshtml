@@ -1,0 +1,72 @@
+﻿@* @model LibraryAppMVC.Models.Book *@
+@using System.Globalization;
+@model LibraryAppMVC.ViewModels.Book.CreateBookViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Book</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Titolo" class="control-label"></label>
+                <input asp-for="Titolo" class="form-control" />
+                <span asp-validation-for="Titolo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Quantita" class="control-label"></label>
+                <input asp-for="Quantita" class="form-control" />
+                <span asp-validation-for="Quantita" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataPubblicazione" class="control-label"></label>
+                <input asp-for="DataPubblicazione" class="form-control" />
+                <span asp-validation-for="DataPubblicazione" class="text-danger"></span> 
+            </div>
+            <div class="form-group">
+                <label asp-for="Genere" class="control-label"></label>
+                <input asp-for="Genere" class="form-control" />
+                <span asp-validation-for="Genere" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @* value="@Model.Prezzo.ToString("F2", CultureInfo.InvariantCulture)" *@
+                <label asp-for="Prezzo" class="control-label"></label>
+                <input asp-for="Prezzo" class="form-control" type="number" step=".01"/>
+                <span asp-validation-for="Prezzo" class="text-danger"></span>
+            </div>
+            @* <div class="form-group">
+                <label asp-for="AuthorId" class="control-label"></label>
+                <select asp-for="AuthorId" class ="form-control" asp-items="ViewBag.AuthorId"></select>
+            </div> *@
+            <div class="form-group">
+                <label asp-for="AuthorId" class="control-label">Autore</label>
+                <select asp-for="AuthorId" class="form-control" asp-items="Model.AuthorsList"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<script>
+    document.querySelector('input[name="Prezzo"]').addEventListener('input', function (event) {
+        this.value = this.value.replace(',', '.'); // Replace commas with dots
+    });
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+

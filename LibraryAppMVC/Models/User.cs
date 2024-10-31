@@ -12,7 +12,7 @@ namespace LibraryAppMVC.Models
         public string Cognome { get; set; }
         [DataType(DataType.Date)]
         [Display(Name = "Data di Nascita")]
-        [DisplayFormat(DataFormatString = "{0:dd-mm-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "date")]
         public DateTime DoB { get; set; }
         public string Telefono { get; set; } = string.Empty;
@@ -20,10 +20,10 @@ namespace LibraryAppMVC.Models
         public char Tipo { get; set; }
 
         // one-to-one
-        public UserAddress Indirizzo { get; set; }
+        public UserAddress? Indirizzo { get; set; }
 
         //one-to-many
-        public IList<Loan> Loans { get; set; }
+        public IList<Loan>? Loans { get; set; }
 
     }
 }

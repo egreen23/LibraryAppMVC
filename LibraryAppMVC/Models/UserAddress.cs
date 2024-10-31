@@ -14,7 +14,7 @@ namespace LibraryAppMVC.Models
 
         //one-to-one relationship
 
-        public int UserId { get; set; }
-        public User User { get; set; }
+        public int? UserId { get; set; }
+        public User? User { get; set; }
     }
 }
