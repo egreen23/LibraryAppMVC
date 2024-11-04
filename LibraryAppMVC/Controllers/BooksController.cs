@@ -16,7 +16,7 @@ namespace LibraryAppMVC.Controllers
    // [Route("books")]
     public class BooksController : Controller
     {
-        private readonly LibraryDbContext _context; //da togliere 
+        //private readonly LibraryDbContext _context; //da togliere 
         private readonly IBookService _bookService;
         private readonly IAuthorService _authorService;
 
@@ -25,11 +25,11 @@ namespace LibraryAppMVC.Controllers
         //    _context = context;
         //}
         
-        public BooksController(IAuthorService authorService, IBookService bookService, LibraryDbContext context)
+        public BooksController(IAuthorService authorService, IBookService bookService)
         {
             _authorService = authorService;
             _bookService = bookService;
-            _context = context;
+            
         }
 
         // GET: Books
@@ -73,11 +73,6 @@ namespace LibraryAppMVC.Controllers
             //ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "Cognome");
             var createVM = new CreateBookViewModel
             {
-                //Titolo = string.Empty,
-                //Quantita = 0,
-                //DataPubblicazione = DateTime.Parse("12-12-1993"),
-                //Genere = string.Empty,
-                //Prezzo = 0,
                 AuthorsList = new SelectList(authors, "Id", "FullName")
             };
             return View(createVM);
@@ -92,13 +87,6 @@ namespace LibraryAppMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                //book.Prezzo = decimal.TryParse(book.Prezzo.ToString());
-                //string str = book.Prezzo.ToString();
-                //decimal num;
-                //decimal.TryParse(str, out num);
-                //book.Prezzo = num;
-                //_context.Add(book);
-                //await _context.SaveChangesAsync();
                 await _bookService.CreateAsync(book);
                 return RedirectToAction(nameof(Index));
             }
