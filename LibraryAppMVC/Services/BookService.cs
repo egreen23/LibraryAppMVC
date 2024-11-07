@@ -23,19 +23,19 @@ namespace LibraryAppMVC.Services
 
         }
 
-        public async Task<List<BookDto>> GetAllAsync()
+        public async Task<List<Book>> GetAllAsync()
         {
             var books = await _bookRepo.GetAllAsync(); //LIST
-            var booksDto = books.Select(x => x.toBookDto()); //IEnumerable
-            List<BookDto> listbooks = booksDto.ToList();
-            return listbooks;
+            //var booksDto = books.Select(x => x.toBookDto()); //IEnumerable
+            //List<BookDto> listbooks = booksDto.ToList();
+            return books;
         }
 
-        public async Task<BookDto> GetByIdAsync(int id)
+        public async Task<Book> GetByIdAsync(int id)
         {
             var book = await _bookRepo.GetByIdAsync(id);
-            var bookDto = book.toBookDto();
-            return bookDto;
+            //var bookDto = book.toBookDto();
+            return book;
 
         }
 

@@ -1,0 +1,66 @@
+﻿@* @model IEnumerable<LibraryAppMVC.ViewModels.Loan.DetailLoanViewModel> *@
+    @model LibraryAppMVC.ViewModels.Loan.DetailLoanViewModel 
+
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Loan</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.aLoan.Totale)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.aLoan.Totale)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.aLoan.DataInizio)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.aLoan.DataInizio)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.aLoan.DataFine)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.aLoan.DataFine)
+        </dd>
+        @* <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.User)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.User.Cognome)
+        </dd> *@
+    </dl>
+</div>
+@if (Model.bookList.Count > 0)
+{
+    <div class="col-md-10">
+    Books
+    <table>
+        <tr>
+            <th>Titolo</th> 
+            <th>Prezzo</th>
+        </tr>
+        
+            @{
+                foreach (var book in Model.bookList)
+                {
+                    @:<tr> <td> @book.Titolo </td>
+                    @: <td> @book.Prezzo </td> </tr>
+                }
+            }
+        
+    </table>
+    </div>
+}
+
+<div>
+    @* <a asp-action="Edit" asp-route-id="@Model?.aLoan.Id">Edit</a>  *@|
+    <a asp-action="Index">Back to List</a>
+</div>

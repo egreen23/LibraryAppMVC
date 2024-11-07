@@ -29,6 +29,9 @@ builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 
+builder.Services.AddScoped<ILoanService, LoanService>();
+builder.Services.AddScoped<ILoanRepository, LoanRepository>();
+
 
 
 

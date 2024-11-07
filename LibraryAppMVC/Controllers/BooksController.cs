@@ -16,20 +16,13 @@ namespace LibraryAppMVC.Controllers
    // [Route("books")]
     public class BooksController : Controller
     {
-        //private readonly LibraryDbContext _context; //da togliere 
         private readonly IBookService _bookService;
         private readonly IAuthorService _authorService;
-
-        //public BooksController(LibraryDbContext context)
-        //{
-        //    _context = context;
-        //}
         
         public BooksController(IAuthorService authorService, IBookService bookService)
         {
             _authorService = authorService;
             _bookService = bookService;
-            
         }
 
         // GET: Books
@@ -41,11 +34,24 @@ namespace LibraryAppMVC.Controllers
       //  [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await _bookService.GetAllAsync());
-            //var books = await _bookService.GetAllAsync();
-            //var custom_books = from book in books
-            //                   select book.Quantita;
-            //return Ok(books); //funziona
+            var books = await _bookService.GetAllAsync();
+            List<IndexBookViewModel> booksVM = new List<IndexBookViewModel>();
+            foreach(var  b in books)
+            {
+                var item = new IndexBookViewModel
+                {
+                    Titolo = b.Titolo,
+                    Quantita = b.Quantita,
+                    DataPubblicazione = b.DataPubblicazione,
+                    Genere = b.Genere,
+                    Prezzo = b.Prezzo,
+                    Id = b.Id,
+                    AuthorFullname = b.Author.FullName
+                };
+                booksVM.Add(item);
+            }
+
+            return View(booksVM);
         }
 
         // GET: Books/Details/5
@@ -58,12 +64,23 @@ namespace LibraryAppMVC.Controllers
 
             var book = await _bookService.GetByIdAsync(id);
 
+            var bookVM = new IndexBookViewModel
+            {
+                Id = book.Id,
+                Titolo = book.Titolo,
+                Quantita = book.Quantita,
+                DataPubblicazione = book.DataPubblicazione,
+                Genere = book.Genere,
+                Prezzo = book.Prezzo,
+                AuthorFullname = book.Author.FullName
+            };
+
             if (book == null)
             {
                 return NotFound();
             }
 
-            return View(book);
+            return View(bookVM);
         }
 
         //// GET: Books/Create

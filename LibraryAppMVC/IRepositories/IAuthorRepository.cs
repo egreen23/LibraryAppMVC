@@ -4,7 +4,7 @@ namespace LibraryAppMVC.IRepositories
 {
     public interface IAuthorRepository
     {
-        public Task<List<Author>> GetAllAsync();
+        Task<List<Author>> GetAllAsync();
         Task<Author?> GetByIdAsync(int id);
         Task<Author> CreateAsync(Author authorModel);
         Task<Author?> UpdateAsync(int id, Author authorModel);

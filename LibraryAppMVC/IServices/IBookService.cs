@@ -6,9 +6,9 @@ namespace LibraryAppMVC.IServices
 {
     public interface IBookService
     {
-        public Task<List<BookDto>> GetAllAsync();
+        public Task<List<Book>> GetAllAsync();
 
-        public Task<BookDto> GetByIdAsync(int id);
+        public Task<Book> GetByIdAsync(int id);
 
         public Task<Book> CreateAsync(Book book);
 
