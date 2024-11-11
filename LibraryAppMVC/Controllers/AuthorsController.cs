@@ -10,9 +10,12 @@ using LibraryAppMVC.Models;
 using LibraryAppMVC.IServices;
 using LibraryAppMVC.ViewModels.Author;
 using LibraryAppMVC.Services;
+using Microsoft.AspNetCore.Authorization;
+using LibraryAppMVC.Utility;
 
 namespace LibraryAppMVC.Controllers
 {
+    [Authorize(Roles = SD.Role_Admin)]
     public class AuthorsController : Controller
     {
         private readonly IAuthorService _authorService;
@@ -111,7 +114,6 @@ namespace LibraryAppMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Cognome,Nazionalita,DoB,LuogoNascita,DoD")] Author author)
         public async Task<IActionResult> Edit(UpdateAuthorViewModel updateAuthorModel)
         {
             if (ModelState.IsValid)

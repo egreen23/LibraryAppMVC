@@ -5,6 +5,9 @@ using LibraryAppMVC.Repositories;
 using LibraryAppMVC.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using LibraryAppMVC.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,14 +26,28 @@ builder.Services.AddDbContext<LibraryDbContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<LibraryDbContext>().AddDefaultTokenProviders();
+//sempre dopo addIdentity
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = $"/Identity/Account/Login";
+    options.LogoutPath = $"/Identity/Account/Logout";
+    options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+});
+builder.Services.AddRazorPages();
+
+builder.Services.AddScoped<IEmailSender, EmailSender>();
+
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IBookService, BookService>();
 
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 
-builder.Services.AddScoped<ILoanService, LoanService>();
-builder.Services.AddScoped<ILoanRepository, LoanRepository>();
+//builder.Services.AddScoped<ILoanService, LoanService>();
+//builder.Services.AddScoped<ILoanRepository, LoanRepository>();
 
 
 
@@ -46,14 +63,14 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
+//using (var scope = app.Services.CreateScope())
+//{
+//    var services = scope.ServiceProvider;
 
-    var context = services.GetRequiredService<LibraryDbContext>();
-    //context.Database.EnsureCreated();
-    DbInitializer.Initialize(context);
-}
+//    var context = services.GetRequiredService<LibraryDbContext>();
+//    //context.Database.EnsureCreated();
+//    DbInitializer.Initialize(context);
+//}
 
 app.UseSwagger();
 app.UseSwaggerUI();
@@ -62,9 +79,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication(); //sempre prima di authorization
 app.UseAuthorization();
-
+app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

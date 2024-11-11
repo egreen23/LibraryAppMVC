@@ -1,5 +1,4 @@
-﻿using LibraryAppMVC.Dtos;
-using LibraryAppMVC.Models;
+﻿using LibraryAppMVC.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryAppMVC.IServices

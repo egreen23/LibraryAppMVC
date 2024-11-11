@@ -10,15 +10,17 @@ using LibraryAppMVC.Models;
 using LibraryAppMVC.IServices;
 using System.Collections;
 using LibraryAppMVC.ViewModels.Book;
+using LibraryAppMVC.Utility;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraryAppMVC.Controllers
 {
-   // [Route("books")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class BooksController : Controller
     {
         private readonly IBookService _bookService;
         private readonly IAuthorService _authorService;
-        
+
         public BooksController(IAuthorService authorService, IBookService bookService)
         {
             _authorService = authorService;
@@ -31,12 +33,12 @@ namespace LibraryAppMVC.Controllers
         //    var libraryDbContext = _context.Books.Include(b => b.Author);
         //    return View(await libraryDbContext.ToListAsync());
         //}
-      //  [HttpGet]
+        //  [HttpGet]
         public async Task<IActionResult> Index()
         {
             var books = await _bookService.GetAllAsync();
             List<IndexBookViewModel> booksVM = new List<IndexBookViewModel>();
-            foreach(var  b in books)
+            foreach (var b in books)
             {
                 var item = new IndexBookViewModel
                 {
@@ -159,14 +161,14 @@ namespace LibraryAppMVC.Controllers
             {
                 try
                 {
-                //    //_context.Update(book);
-                //    //await _context.SaveChangesAsync();
-                        await _bookService.UpdateAsync(id, book);
-                    
+                    //    //_context.Update(book);
+                    //    //await _context.SaveChangesAsync();
+                    await _bookService.UpdateAsync(id, book);
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    
+
                     if (!(await _bookService.BookExists(id)))
                     {
                         return NotFound();
