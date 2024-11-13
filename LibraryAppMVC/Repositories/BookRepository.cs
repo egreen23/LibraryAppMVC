@@ -63,5 +63,18 @@ namespace LibraryAppMVC.Repositories
         {
             return await _context.Books.AnyAsync(x => x.Id == id);
         }
+
+        public async Task<Book?> UpdateQuantitaByIdAsync(int id, int addQuantita)
+        {
+            var existingbook = await _context.Books.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (existingbook == null) return null;
+
+            existingbook.Quantita += addQuantita;
+
+            _context.Books.Update(existingbook);
+            await _context.SaveChangesAsync();
+            return existingbook;
+        }
     }
 }

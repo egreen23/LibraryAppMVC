@@ -11,7 +11,7 @@ namespace LibraryAppMVC.ViewModels.Loan
         [Display(Name = "Data Inizio")]
         [Column(TypeName = "date")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime DataInizio { get; set; } = DateTime.Now;
+        public DateTime DataInizio { get; set; } 
         [DataType(DataType.Date)]
         [Display(Name = "Data Fine")]
         [Column(TypeName = "date")]

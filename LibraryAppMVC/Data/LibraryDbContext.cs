@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LibraryAppMVC.Data
 {
-    public class LibraryDbContext : IdentityDbContext<IdentityUser>
+    public class LibraryDbContext : IdentityDbContext<ApplicationUser>
     {
         public LibraryDbContext(DbContextOptions<LibraryDbContext> dbContextOptions) : base(dbContextOptions) 
         {
@@ -17,9 +17,9 @@ namespace LibraryAppMVC.Data
         //public DbSet<UserAddress> UserAddresses { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Book> Books { get; set; }
-        public DbSet<AppUser> AppUsers { get; set; }
-        //public DbSet<Loan> Loans { get; set; }
-        //public DbSet<LoanBook> LoanBooks { get; set; }
+        //public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<Loan> Loans { get; set; }
+        public DbSet<LoanBook> LoanBooks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,9 +29,9 @@ namespace LibraryAppMVC.Data
             //modelBuilder.Entity<UserAddress>().ToTable(nameof(UserAddress));
             modelBuilder.Entity<Author>().ToTable(nameof(Author));
             modelBuilder.Entity<Book>().ToTable(nameof(Book));
-            modelBuilder.Entity<AppUser>().ToTable(nameof(AppUser));
-            //modelBuilder.Entity<Loan>().ToTable(nameof(Loan));
-            //modelBuilder.Entity<LoanBook>().ToTable(nameof(LoanBook));
+            modelBuilder.Entity<ApplicationUser>().ToTable(nameof(ApplicationUser));
+            modelBuilder.Entity<Loan>().ToTable(nameof(Loan));
+            modelBuilder.Entity<LoanBook>().ToTable(nameof(LoanBook));
 
             modelBuilder.Entity<Author>().HasData(
                 new Author

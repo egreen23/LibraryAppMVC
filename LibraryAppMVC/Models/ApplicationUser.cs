@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LibraryAppMVC.Models
 {
-    public class AppUser : IdentityUser
+    public class ApplicationUser : IdentityUser
     {
         [Required, StringLength(50)]
         public string Nome { get; set; }
@@ -16,5 +16,6 @@ namespace LibraryAppMVC.Models
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "date")]
         public DateTime DoB { get; set; }
+        public ICollection<Loan>? Loans { get; set; }
     }
 }

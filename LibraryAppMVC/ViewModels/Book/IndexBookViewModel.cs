@@ -16,7 +16,7 @@ namespace LibraryAppMVC.ViewModels.Book
         public decimal Prezzo { get; set; }
         [Display(Name = "Autore")]
         public string AuthorFullname { get; set; }
-
         public int? AuthorId { get; set; }
+        public bool OutofStock { get; set; } = false;
     }
 }

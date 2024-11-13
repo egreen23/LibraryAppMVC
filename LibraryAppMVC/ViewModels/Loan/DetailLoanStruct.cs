@@ -13,6 +13,7 @@ namespace LibraryAppMVC.ViewModels.Loan
         public DateTime DataFine { get; set; }
         public string Titolo { get; set; }
         public decimal Prezzo { get; set; }
+        public int BookId { get; set; }
 
     }
 }

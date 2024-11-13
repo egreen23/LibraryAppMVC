@@ -4,12 +4,12 @@ using LibraryAppMVC.Models;
 
 namespace LibraryAppMVC.ViewModels.Loan
 {
-    //public class DetailLoanViewModel
-    //{
-    //    public LibraryAppMVC.Models.Loan? aLoan { get; set; }
+    public class DetailLoanViewModel
+    {
+        public LibraryAppMVC.Models.Loan? aLoan { get; set; }
 
-    //    public List<BookLoanStruct>? bookList { get; set; }
+        public List<BookLoanStruct>? bookList { get; set; }
 
 
-    //}
+    }
 }

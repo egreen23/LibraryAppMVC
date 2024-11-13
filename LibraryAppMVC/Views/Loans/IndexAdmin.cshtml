@@ -1,16 +1,12 @@
 ﻿@model IEnumerable<LibraryAppMVC.ViewModels.Loan.IndexLoanViewModel>
 
 @{
-    ViewData["Title"] = "My Loans";
+    ViewData["Title"] = "Loans";
 }
 
-<h1>My Loans</h1>
+<h1>Loans</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-
-@if(Model != null)
+@if (Model != null)
 {
     <table class="table">
         <thead>
@@ -36,7 +32,6 @@
             {
                 <tr>
                     <td>
-
                         @Html.DisplayFor(modelItem => item.UserFullName)
                     </td>
                     <td>
@@ -49,9 +44,9 @@
                         @Html.DisplayFor(modelItem => item.Totale)
                     </td>
                     <td>
-@*                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
- *@                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        @*                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                *@      <a asp-action="DetailsAdmin" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="DeleteAdmin" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>
             }

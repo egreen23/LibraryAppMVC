@@ -26,7 +26,7 @@ namespace LibraryAppMVC.Models
         public DateTime? DoD { get; set; }
 
         //navigation property one-to-many
-        public IList<Book>? Books { get; set; }
+        public ICollection<Book>? Books { get; set; }
 
         public string FullName
         {

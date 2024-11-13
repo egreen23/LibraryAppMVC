@@ -65,10 +65,25 @@ namespace LibraryAppMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                
-                await _authorService.CreateAsync(createAuthorModel);
-                //await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if(createAuthorModel.isAlive == false)
+                {
+                    int result = DateTime.Compare(createAuthorModel.DoB, createAuthorModel.DoD);
+                    if (result == 0 || result > 0)
+                    {
+                        Console.WriteLine("date incorrette, nessuno muore prima di nascere");
+                        return RedirectToAction("Create");
+                    }
+                    else
+                    {
+                        await _authorService.CreateAsync(createAuthorModel);
+                        return RedirectToAction(nameof(Index));
+                    }
+                }  
+                else
+                {
+                    await _authorService.CreateAsync(createAuthorModel);
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View(createAuthorModel);
         }

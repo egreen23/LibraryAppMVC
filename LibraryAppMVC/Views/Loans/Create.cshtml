@@ -1,64 +1,30 @@
-﻿@* @model LibraryAppMVC.ViewModels.Loan.CreateLoanViewModel
+﻿@model LibraryAppMVC.ViewModels.Loan.CreateLoanViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Loan";
 }
 
-<h1>Create</h1>
+<h1>Create Loan</h1>
 
-<h4>Loan</h4>
+
 <hr />
+
+
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-           
-            <div class="form-group">
-                <label asp-for="DataInizio" class="control-label"></label>
-                <input asp-for="DataInizio" class="form-control" />
-                <span asp-validation-for="DataInizio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DataFine" class="control-label"></label>
-                <input asp-for="DataFine" class="form-control" />
-                <span asp-validation-for="DataFine" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BookId" class="control-label">Libri</label>
-                <select asp-for="BookId" class="form-control" asp-items="Model.Books"></select>
-                <input type="submit" value="Add" class="btn btn-primary" asp-controller="Loans"  asp-action="Add" />
-            </div>
-            @if (Model.booksAdded.Count > 0)
-            {
-             <div class="col-md-10">
-                Books
-                <table>
-                <tr>
-                    <th>Titolo</th> 
-                    <th>Prezzo</th>
-                </tr>
-        
-             @{
-                foreach (var book in Model.booksAdded)
-                {
-                    @:<tr> <td> @book.Titolo </td>
-                    @: <td> @book.Prezzo </td> </tr>
-                }
-              }
-        
-                </table>
-            </div>
-            }
-            <div class="form-group">
-                <label asp-for="Totale" class="control-label"></label>
-                <input asp-for="Totale" class="form-control" type="number" step=".01" />
-                <span asp-validation-for="Totale" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+    @foreach (var b in @Model.Books)
+    {
+        <div class="col-md-4">
+            <form asp-action="AddBooktoCart" method="post">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        @b.Titolo - @b.AuthorFullname - @b.Prezzo.ToString("C") 
+                        <input type="hidden" value="@b.Id" name="bookId" />
+                        <button class="btn btn-info" type="submit" disabled="@(b.OutofStock)">Add</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    }
 </div>
 
 <div>
@@ -68,4 +34,3 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
- *@

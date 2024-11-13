@@ -56,5 +56,10 @@ namespace LibraryAppMVC.Services
         {
             return await _bookRepo.DeleteAsync(id);
         }
+
+        public async Task<Book?> UpdateQuantitaByIdAsync(int id, int addQuantita)
+        {
+            return await _bookRepo.UpdateQuantitaByIdAsync(id, addQuantita);
+        }
     }
 }

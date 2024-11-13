@@ -12,5 +12,7 @@ namespace LibraryAppMVC.IRepositories
         Task<Book?> DeleteAsync(int id);
         Task<bool> IsExists(int id);
 
+        Task<Book?> UpdateQuantitaByIdAsync(int id, int addQuantita);
+
     }
 }

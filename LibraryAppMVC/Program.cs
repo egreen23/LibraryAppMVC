@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using LibraryAppMVC.Utility;
+using LibraryAppMVC.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +29,8 @@ builder.Services.AddDbContext<LibraryDbContext>(options => {
 
 
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<LibraryDbContext>().AddDefaultTokenProviders();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<LibraryDbContext>().AddDefaultTokenProviders();
+//builder.Services.AddDefaultIdentity
 //sempre dopo addIdentity
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -46,8 +48,14 @@ builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 
-//builder.Services.AddScoped<ILoanService, LoanService>();
-//builder.Services.AddScoped<ILoanRepository, LoanRepository>();
+builder.Services.AddScoped<ILoanService, LoanService>();
+builder.Services.AddScoped<ILoanRepository, LoanRepository>();
+
+builder.Services.AddMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); //Set your timeout here
+});
 
 
 
@@ -81,6 +89,9 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication(); //sempre prima di authorization
 app.UseAuthorization();
+
+app.UseSession();
+
 app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",

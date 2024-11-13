@@ -1,11 +1,12 @@
 ﻿namespace LibraryAppMVC.ViewModels.Loan
 {
-    public struct BookLoanStruct
+    public class LoanItemViewModel
     {
+        public int BookId { get; set; }
         public string Titolo { get; set; }
 
         public decimal Prezzo { get; set; }
 
-        public int BookId { get; set; }
+        public int? AuthorId { get; set; }
     }
 }

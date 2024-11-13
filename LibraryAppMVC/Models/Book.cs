@@ -25,7 +25,7 @@ namespace LibraryAppMVC.Models
         public int? AuthorId { get; set; }
         public Author? Author { get; set; }
         //many-to-many
-        //public IList<LoanBook>? LoanBooks { get; set; }
+        public ICollection<LoanBook>? LoanBooks { get; set; }
 
 
     }

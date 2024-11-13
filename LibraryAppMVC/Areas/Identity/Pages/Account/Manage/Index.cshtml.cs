@@ -15,12 +15,12 @@ namespace LibraryAppMVC.Areas.Identity.Pages.Account.Manage
 {
     public class IndexModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public IndexModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -59,9 +59,15 @@ namespace LibraryAppMVC.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            public string Nome { get; set; }
+
+            public string Cognome { get; set; }
+
+            public DateTime DoB { get; set; }
         }
 
-        private async Task LoadAsync(IdentityUser user)
+        private async Task LoadAsync(ApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
@@ -70,7 +76,10 @@ namespace LibraryAppMVC.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Nome = user.Nome,
+                Cognome = user.Cognome,
+                DoB = user.DoB
             };
         }
 
@@ -91,6 +100,7 @@ namespace LibraryAppMVC.Areas.Identity.Pages.Account.Manage
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await _userManager.GetUserAsync(User);
+
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -113,6 +123,21 @@ namespace LibraryAppMVC.Areas.Identity.Pages.Account.Manage
                 }
 
                 
+            }
+
+            if (Input.Nome != user.Nome)
+            {
+                user.Nome = Input.Nome;
+            }
+
+            if (Input.Cognome != user.Cognome)
+            {
+                user.Cognome = Input.Cognome;
+            }
+
+            if (Input.DoB != user.DoB)
+            {
+                user.DoB = Input.DoB;
             }
 
             await _signInManager.RefreshSignInAsync(user);
