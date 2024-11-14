@@ -26,9 +26,60 @@ namespace LibraryAppMVC.Controllers
         }
 
         // GET: Authors
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index( string searchTerm = "", string orderBy="", int currentPage=1)
         {
-            return View(await _authorService.GetAllAuthorsAsync());
+            searchTerm = string.IsNullOrEmpty(searchTerm) ? "" : searchTerm.ToLowerInvariant();
+            var modelVM = new IndexAuthorViewModel();
+            //modelVM.currentSort = orderBy;
+            modelVM.NameSortOrder = string.IsNullOrEmpty(orderBy) ? "name_desc" : "";
+            modelVM.DateSortOrder = orderBy == "date" ? "date_desc" : "date";
+
+            //if (searchTerm != null)
+            //{
+            //    pageNumber = 1;
+            //}
+            //else
+            //{
+            //    searchTerm = currentFilter;
+            //}
+
+            //modelVM.currentFilter = searchTerm;
+
+            List<Author> autori = await _authorService.GetAllAuthorsAsync();
+
+            var authorsQuery = from author in autori
+                               where searchTerm == "" || author.Nome.ToLowerInvariant().StartsWith(searchTerm)
+                               select author;
+
+            switch (orderBy)
+            {
+                case "name_desc":
+                    authorsQuery = authorsQuery.OrderByDescending(a => a.Nome);
+                    break;
+                case "date_desc":
+                    authorsQuery = authorsQuery.OrderByDescending(a => a.DoB);
+                    break;
+                case "date":
+                    authorsQuery = authorsQuery.OrderBy(a => a.DoB);
+                    break;
+                default:
+                    authorsQuery = authorsQuery.OrderBy(a => a.Nome);
+                    break;
+            }
+
+            int totalRecords = authorsQuery.Count();
+            int pageSize = 5;
+            int totalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);
+
+            authorsQuery = authorsQuery.Skip((currentPage - 1) * pageSize).Take(pageSize);
+
+            modelVM.Authors = authorsQuery;
+            modelVM.CurrentPage = currentPage;
+            modelVM.TotalPages = totalPages;
+            modelVM.Term = searchTerm;
+            modelVM.PageSize = pageSize;
+            modelVM.OrderBy = orderBy;
+            return View(modelVM);
         }
 
         // GET: Authors/Details/5
