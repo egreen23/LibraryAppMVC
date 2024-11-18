@@ -67,6 +67,10 @@ namespace LibraryAppMVC.Controllers
 
             var book = await _bookService.GetByIdAsync(id);
 
+            if (book == null)
+            {
+                return NotFound();
+            }
             var bookVM = new IndexBookViewModel
             {
                 Id = book.Id,
@@ -78,10 +82,7 @@ namespace LibraryAppMVC.Controllers
                 AuthorFullname = book.Author.FullName
             };
 
-            if (book == null)
-            {
-                return NotFound();
-            }
+            
 
             return View(bookVM);
         }
@@ -120,7 +121,7 @@ namespace LibraryAppMVC.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Index));
             }
 
             //var book = await _context.Books.FindAsync(id);
@@ -176,7 +177,7 @@ namespace LibraryAppMVC.Controllers
                     }
                     else
                     {
-                        throw;
+                        return Content("conflict");
                     }
                 }
                 return RedirectToAction(nameof(Index));

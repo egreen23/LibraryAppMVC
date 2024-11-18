@@ -91,7 +91,7 @@
             }
             else
             {
-                <li class="page-item"><a class="page-link" href="/Authors/Index/term=@Model.Term&orderBy=@Model.OrderBy&currentPage=@i"> @i</a></li>
+                <li class="page-item"><a class="page-link" href="/Authors/Index/?term=@Model.Term&orderBy=@Model.OrderBy&currentPage=@i"> @i</a></li>
             }
         }
         @if (Model.CurrentPage < Model.TotalPages)

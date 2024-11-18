@@ -26,29 +26,29 @@ namespace LibraryAppMVC.Controllers
         }
 
         // GET: Authors
-        public async Task<IActionResult> Index( string searchTerm = "", string orderBy="", int currentPage=1)
+        public async Task<IActionResult> Index( string term = "", string orderBy="", int currentPage=1)
         {
-            searchTerm = string.IsNullOrEmpty(searchTerm) ? "" : searchTerm.ToLowerInvariant();
+            term = string.IsNullOrEmpty(term) ? "" : term.ToLowerInvariant();
             var modelVM = new IndexAuthorViewModel();
             //modelVM.currentSort = orderBy;
             modelVM.NameSortOrder = string.IsNullOrEmpty(orderBy) ? "name_desc" : "";
             modelVM.DateSortOrder = orderBy == "date" ? "date_desc" : "date";
 
-            //if (searchTerm != null)
+            //if (term != null)
             //{
             //    pageNumber = 1;
             //}
             //else
             //{
-            //    searchTerm = currentFilter;
+            //    term = currentFilter;
             //}
 
-            //modelVM.currentFilter = searchTerm;
+            //modelVM.currentFilter = term;
 
             List<Author> autori = await _authorService.GetAllAuthorsAsync();
 
             var authorsQuery = from author in autori
-                               where searchTerm == "" || author.Nome.ToLowerInvariant().StartsWith(searchTerm)
+                               where term == "" || author.Nome.ToLowerInvariant().StartsWith(term)
                                select author;
 
             switch (orderBy)
@@ -76,7 +76,7 @@ namespace LibraryAppMVC.Controllers
             modelVM.Authors = authorsQuery;
             modelVM.CurrentPage = currentPage;
             modelVM.TotalPages = totalPages;
-            modelVM.Term = searchTerm;
+            modelVM.Term = term;
             modelVM.PageSize = pageSize;
             modelVM.OrderBy = orderBy;
             return View(modelVM);
@@ -213,7 +213,7 @@ namespace LibraryAppMVC.Controllers
                     }
                     else
                     {
-                        throw;
+                        return Content("conflict");
                     }
                 }
                 return RedirectToAction(nameof(Index));
