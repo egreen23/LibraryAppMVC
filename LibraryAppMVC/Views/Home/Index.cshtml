@@ -1,8 +1,35 @@
-﻿@{
+﻿@model LibraryAppMVC.ViewModels.Home.HomeViewModel;
+
+@{
     ViewData["Title"] = "Home Page";
 }
+<div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="col">
+        <div class="card" style="width: 18rem;">
+            <div class="card-header">
+            Ultimi Libri aggiunti
+            </div>
+            <ul class="list-group list-group-flush">
+                @foreach (var item in Model.books)
+                {
+                <li class="list-group-item"><a asp-controller="Books" asp-action="Details" asp-route-id="@item.Id"> @item.Titolo - @item.Genere - @item.AuthorFullName</a></li>
+                }
+        
+            </ul>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card" style="width: 18rem;">
+            <div class="card-header">
+            Ultimi Autori aggiunti
+            </div>
+            <ul class="list-group list-group-flush">
+            @foreach (var item in Model.authors)
+            {
+             <li class="list-group-item"><a asp-controller="Authors" asp-action="Details" asp-route-id="@item.Id"> @item.Cognome @item.Nome</a></li>
+            }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+            </ul>
+        </div>
+    </div>
 </div>

@@ -17,6 +17,8 @@ namespace LibraryAppMVC.IServices
 
         Task<Book?> DeleteAsync(int id);
 
+        Task<List<Book>> GetDashboardBooks(int numBooks);
+
         Task<Book?> UpdateQuantitaByIdAsync(int id, int addQuantita);
     }
 }

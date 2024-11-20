@@ -59,5 +59,9 @@ namespace LibraryAppMVC.Services
         {
             return await _authorRepo.UpdateAsync(id, author);
         }
+        public async Task<List<Author>> GetDashboardAuthors(int numAuthors)
+        {
+            return await _authorRepo.GetDashboardAuthors(numAuthors);
+        }
     }
 }

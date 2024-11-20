@@ -15,7 +15,6 @@ using LibraryAppMVC.Utility;
 
 namespace LibraryAppMVC.Controllers
 {
-    [Authorize(Roles = SD.Role_Admin)]
     public class AuthorsController : Controller
     {
         private readonly IAuthorService _authorService;
@@ -25,7 +24,7 @@ namespace LibraryAppMVC.Controllers
             _authorService = authorService;
         }
 
-        // GET: Authors
+        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Index( string term = "", string orderBy="", int currentPage=1)
         {
             term = string.IsNullOrEmpty(term) ? "" : term.ToLowerInvariant();
@@ -82,7 +81,7 @@ namespace LibraryAppMVC.Controllers
             return View(modelVM);
         }
 
-        // GET: Authors/Details/5
+       
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -100,7 +99,7 @@ namespace LibraryAppMVC.Controllers
             return View(author);
         }
 
-        // GET: Authors/Create
+        [Authorize(Roles = SD.Role_Admin)]
         public IActionResult Create()
         {
             CreateAuthorViewModel authorvm = new CreateAuthorViewModel();
@@ -112,6 +111,7 @@ namespace LibraryAppMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Create(CreateAuthorViewModel createAuthorModel)
         {
             if (ModelState.IsValid)
@@ -139,7 +139,7 @@ namespace LibraryAppMVC.Controllers
             return View(createAuthorModel);
         }
 
-        // GET: Authors/Edit/5
+        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -178,6 +178,7 @@ namespace LibraryAppMVC.Controllers
         // POST: Authors/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = SD.Role_Admin)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(UpdateAuthorViewModel updateAuthorModel)
@@ -221,7 +222,7 @@ namespace LibraryAppMVC.Controllers
             return View(updateAuthorModel);
         }
 
-        // GET: Authors/Delete/5
+        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -241,6 +242,7 @@ namespace LibraryAppMVC.Controllers
         // POST: Authors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _authorService.DeleteAsync(id);

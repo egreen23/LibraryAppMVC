@@ -64,5 +64,10 @@ namespace LibraryAppMVC.Repositories
             await _context.SaveChangesAsync();
             return existingauthor;
         }
+
+        public async Task<List<Author>> GetDashboardAuthors(int numAuthors)
+        {
+            return await _context.Authors.OrderByDescending(i => i.Id).Take(numAuthors).AsNoTracking().ToListAsync();
+        }
     }
 }

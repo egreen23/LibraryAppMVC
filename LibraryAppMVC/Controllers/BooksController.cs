@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace LibraryAppMVC.Controllers
 {
-    [Authorize(Roles = SD.Role_Admin)]
     public class BooksController : Controller
     {
         private readonly IBookService _bookService;
@@ -35,6 +34,7 @@ namespace LibraryAppMVC.Controllers
         //    return View(await libraryDbContext.ToListAsync());
         //}
         //  [HttpGet]
+        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Index()
         {
             var books = await _bookService.GetAllAsync();
@@ -88,6 +88,7 @@ namespace LibraryAppMVC.Controllers
         }
 
         //// GET: Books/Create
+        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Create()
         {
             var authors = await _authorService.GetAllAuthorsAsync();
@@ -104,6 +105,7 @@ namespace LibraryAppMVC.Controllers
         //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Create([Bind("Id,Titolo,Quantita,DataPubblicazione,Genere,Prezzo,AuthorId")] Book book)
         {
             if (ModelState.IsValid)
@@ -117,6 +119,7 @@ namespace LibraryAppMVC.Controllers
         }
 
         //// GET: Books/Edit/5
+        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -152,6 +155,7 @@ namespace LibraryAppMVC.Controllers
         //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Titolo,Quantita,DataPubblicazione,Genere,Prezzo,AuthorId")] Book book)
         {
             //if (id != book.Id)
@@ -186,7 +190,7 @@ namespace LibraryAppMVC.Controllers
             return View(book);
         }
 
-        //// GET: Books/Delete/5
+        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -203,9 +207,9 @@ namespace LibraryAppMVC.Controllers
             return View(book);
         }
 
-        //// POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _bookService.DeleteAsync(id);

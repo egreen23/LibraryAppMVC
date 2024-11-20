@@ -61,5 +61,10 @@ namespace LibraryAppMVC.Services
         {
             return await _bookRepo.UpdateQuantitaByIdAsync(id, addQuantita);
         }
+
+        public async Task<List<Book>> GetDashboardBooks(int numBooks)
+        {
+            return await _bookRepo.GetDashboardBooks(numBooks);
+        }
     }
 }

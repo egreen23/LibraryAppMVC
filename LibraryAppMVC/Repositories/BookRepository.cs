@@ -76,5 +76,10 @@ namespace LibraryAppMVC.Repositories
             await _context.SaveChangesAsync();
             return existingbook;
         }
+
+        public async Task<List<Book>> GetDashboardBooks(int numBooks)
+        {
+            return await _context.Books.Include(b => b.Author).OrderByDescending(i => i.Id).Take(numBooks).AsNoTracking().ToListAsync();
+        }
     }
 }
