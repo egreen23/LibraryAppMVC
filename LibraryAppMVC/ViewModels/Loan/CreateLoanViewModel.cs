@@ -19,5 +19,7 @@ namespace LibraryAppMVC.ViewModels.Loan
 
         public List<LoanItemViewModel> BooksAddedToCart { get; set; } = [];
         public decimal Totale { get; set; }
+
+        public string? Term { get; set; }
     }
 }

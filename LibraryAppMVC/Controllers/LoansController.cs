@@ -15,16 +15,18 @@ using Microsoft.AspNetCore.Authorization;
 using static NuGet.Packaging.PackagingConstants;
 using LibraryAppMVC.ViewModels.Book;
 using static System.Reflection.Metadata.BlobBuilder;
+using Microsoft.IdentityModel.Tokens;
 
 namespace LibraryAppMVC.Controllers
 {
+    [Authorize(Roles = SD.Role_User)]
     public class LoansController : Controller
     {
         private readonly ILoanService _loanService;
         private readonly IBookService _bookService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        [Authorize(Roles = SD.Role_User)]
+        
         public LoansController(ILoanService loanService, IBookService bookService, UserManager<ApplicationUser> userManager)
         {
             _loanService = loanService;
@@ -37,7 +39,6 @@ namespace LibraryAppMVC.Controllers
         public async Task<IActionResult> Index()
         {
             string UserId = _userManager.GetUserId(User);
-            //var loans = await _loanService.GetAllAsync();
             var loans = await _loanService.GetAllByUserIdAsync(UserId);
 
             return View(loans);
@@ -63,10 +64,12 @@ namespace LibraryAppMVC.Controllers
         }
         public async Task<IActionResult> Create()
         {
+
             var model = HttpContext.Session.Get<CreateLoanViewModel>("CreateLoanViewModel");
             if (model == null)
             {
                 var allbooks = await _bookService.GetAllAsync();
+                
                 List<IndexBookViewModel> booklist = new List<IndexBookViewModel>();
                 foreach (var b in allbooks)
                 {
@@ -83,20 +86,110 @@ namespace LibraryAppMVC.Controllers
                     if (item.Quantita == 0) item.OutofStock = true;
                     booklist.Add(item);
                 }
+
+                //var cartQuery = from book in booklist
+                //                where term == "" || book.Titolo.ToLowerInvariant().StartsWith(term)
+                //                select book;
+
+
                 model = new CreateLoanViewModel
                 {
                     BooksAddedToCart = new List<LoanItemViewModel>(),
                     //Books = booklist.Where(b => b.Quantita > 0)
                     Books = booklist
+        
                 };
+
+                HttpContext.Session.Set<CreateLoanViewModel>("CreateLoanViewModel", model);
                 
             }
-           
+
+            
+
             return View(model);
 
         }
+        [HttpPost]
+        public async Task<IActionResult> Search(string term)
+        {
+            term = string.IsNullOrEmpty(term) ? "" : term.ToLowerInvariant();
 
-        
+            var model = HttpContext.Session.Get<CreateLoanViewModel>("CreateLoanViewModel");
+            if (model == null)
+            {
+                var allbooks = await _bookService.GetAllAsync();
+
+                List<IndexBookViewModel> booklist = new List<IndexBookViewModel>();
+                foreach (var b in allbooks)
+                {
+                    var item = new IndexBookViewModel
+                    {
+                        Titolo = b.Titolo,
+                        Quantita = b.Quantita,
+                        DataPubblicazione = b.DataPubblicazione,
+                        Genere = b.Genere,
+                        Prezzo = b.Prezzo,
+                        Id = b.Id,
+                        AuthorFullname = b.Author.FullName
+                    };
+                    if (item.Quantita == 0) item.OutofStock = true;
+                    booklist.Add(item);
+                }
+
+                //var cartQuery = from book in booklist
+                //                where term == "" || book.Titolo.ToLowerInvariant().StartsWith(term)
+                //                select book;
+
+
+                model = new CreateLoanViewModel
+                {
+                    BooksAddedToCart = new List<LoanItemViewModel>(),
+                    //Books = booklist.Where(b => b.Quantita > 0)
+                    Books = booklist
+
+                };
+
+                HttpContext.Session.Set<CreateLoanViewModel>("CreateLoanViewModel", model);
+
+            }
+            if (!term.IsNullOrEmpty())
+            {
+                var cartQuery = from book in model.Books
+                                where term == "" || book.Titolo.ToLowerInvariant().StartsWith(term!)
+                                select book;
+                model.Books = cartQuery;
+            } else
+            {
+                var allbooks = await _bookService.GetAllAsync();
+
+                List<IndexBookViewModel> booklist = new List<IndexBookViewModel>();
+                foreach (var b in allbooks)
+                {
+                    var item = new IndexBookViewModel
+                    {
+                        Titolo = b.Titolo,
+                        Quantita = b.Quantita,
+                        DataPubblicazione = b.DataPubblicazione,
+                        Genere = b.Genere,
+                        Prezzo = b.Prezzo,
+                        Id = b.Id,
+                        AuthorFullname = b.Author.FullName
+                    };
+                    if (item.Quantita == 0) item.OutofStock = true;
+                    booklist.Add(item);
+                }
+                model.Books = booklist;
+            }
+
+            HttpContext.Session.Set<CreateLoanViewModel>("CreateLoanViewModel", model);
+
+
+
+            return View("Create", model);
+        }
+
+
+
         [HttpPost]
         public async Task<IActionResult> AddBooktoCart(int bookId)
         {

@@ -8,8 +8,19 @@
 
 
 <hr />
+<div class="row">
 
-
+<form asp-action="Search" method="post">
+    <div class="row">
+        <div class="col-md-8">
+             <input name="term" class="form-control" placeholder="Search by title" />
+        </div>
+        <div class="col-md-4">
+            <button type="submit"class="btn btn-info">Search</button>
+        </div>
+    </div>
+</form>
+</div>
 <div class="row">
     @foreach (var b in @Model.Books)
     {
