@@ -97,7 +97,6 @@ namespace LibraryAppMVC.Controllers
                     BooksAddedToCart = new List<LoanItemViewModel>(),
                     //Books = booklist.Where(b => b.Quantita > 0)
                     Books = booklist
-        
                 };
 
                 HttpContext.Session.Set<CreateLoanViewModel>("CreateLoanViewModel", model);
@@ -109,10 +108,13 @@ namespace LibraryAppMVC.Controllers
             return View(model);
 
         }
+
         [HttpPost]
-        public async Task<IActionResult> Search(string term)
+        public async Task<IActionResult> Search(string term, string term2)
         {
             term = string.IsNullOrEmpty(term) ? "" : term.ToLowerInvariant();
+
+            term2 = string.IsNullOrEmpty(term2) ? "" : term2.ToLowerInvariant();
 
             var model = HttpContext.Session.Get<CreateLoanViewModel>("CreateLoanViewModel");
             if (model == null)
@@ -152,13 +154,28 @@ namespace LibraryAppMVC.Controllers
                 HttpContext.Session.Set<CreateLoanViewModel>("CreateLoanViewModel", model);
 
             }
-            if (!term.IsNullOrEmpty())
+            model.TermTitle = term;
+            model.TermAuthor = term2;
+            if (!model.TermAuthor.IsNullOrEmpty())
+            {
+                var cartQuery = from book in model.Books
+                                where term2 == "" || book.AuthorFullname.ToLowerInvariant().StartsWith(term2!)
+                                select book;
+                model.Books = cartQuery;
+                model.TermAuthor = term2;
+
+            }
+
+            if (!model.TermTitle.IsNullOrEmpty())
             {
                 var cartQuery = from book in model.Books
                                 where term == "" || book.Titolo.ToLowerInvariant().StartsWith(term!)
                                 select book;
                 model.Books = cartQuery;
-            } else
+                model.TermTitle = term;
+
+            } 
+            if(model.TermAuthor.IsNullOrEmpty() && model.TermTitle.IsNullOrEmpty())
             {
                 var allbooks = await _bookService.GetAllAsync();
 
@@ -179,6 +196,8 @@ namespace LibraryAppMVC.Controllers
                     booklist.Add(item);
                 }
                 model.Books = booklist;
+                model.TermTitle = "";
+                model.TermAuthor = "";
             }
 
             HttpContext.Session.Set<CreateLoanViewModel>("CreateLoanViewModel", model);

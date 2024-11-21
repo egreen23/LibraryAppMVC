@@ -8,13 +8,31 @@
 
 
 <hr />
+
+<form asp-action="Search" method="post">
+    <div class="row">
+        <div class="col-md-8">
+            <input type="hidden" name="term" class="form-control" value="" placeholder="Search by title" />
+        </div>
+        <div class="col-md-8">
+            <input type="hidden" name="term2" class="form-control" value="" placeholder="Search by author" />
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-info">Reset Search</button>
+        </div>
+    </div>
+</form>
+
 <div class="row">
 
 <form asp-action="Search" method="post">
     <div class="row">
         <div class="col-md-8">
-             <input name="term" class="form-control" placeholder="Search by title" />
+             <input name="term" class="form-control" value="@Model.TermTitle" placeholder="Search by title" />
         </div>
+            <div class="col-md-8">
+                <input name="term2" class="form-control" value="@Model.TermAuthor" placeholder="Search by author" />
+            </div>
         <div class="col-md-4">
             <button type="submit"class="btn btn-info">Search</button>
         </div>
@@ -28,7 +46,11 @@
             <form asp-action="AddBooktoCart" method="post">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
-                        @b.Titolo - @b.AuthorFullname - @b.Prezzo.ToString("C") 
+                        <p> @Html.DisplayNameFor(modelItem => b.Titolo): @Html.DisplayFor(modelItem => b.Titolo)</p>
+                        <p>@Html.DisplayNameFor(modelItem => b.Genere): @Html.DisplayFor(modelItem => b.Genere)</p>
+                        <p>@Html.DisplayNameFor(modelItem => b.DataPubblicazione): @Html.DisplayFor(modelItem => b.DataPubblicazione)</p>
+                        <p>@Html.DisplayNameFor(modelItem => b.AuthorFullname): @Html.DisplayFor(modelItem => b.AuthorFullname)</p>
+                        <p>@Html.DisplayNameFor(modelItem => b.Prezzo): @Html.DisplayFor(modelItem => b.Prezzo)</p>
                         <input type="hidden" value="@b.Id" name="bookId" />
                         <button class="btn btn-info" type="submit" disabled="@(b.OutofStock)">Add</button>
                     </div>
