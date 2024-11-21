@@ -24,6 +24,7 @@ namespace LibraryAppMVC.Controllers
         private readonly IBookService _bookService;
         private readonly UserManager<ApplicationUser> _userManager;
 
+        [Authorize(Roles = SD.Role_User)]
         public LoansController(ILoanService loanService, IBookService bookService, UserManager<ApplicationUser> userManager)
         {
             _loanService = loanService;
@@ -32,7 +33,7 @@ namespace LibraryAppMVC.Controllers
         }
 
         // GET: Loans
-        [Authorize]
+        
         public async Task<IActionResult> Index()
         {
             string UserId = _userManager.GetUserId(User);
@@ -43,7 +44,6 @@ namespace LibraryAppMVC.Controllers
         }
 
         // GET: Loans/Details/5
-        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -61,7 +61,6 @@ namespace LibraryAppMVC.Controllers
 
             return View(loandetails);
         }
-        [Authorize]
         public async Task<IActionResult> Create()
         {
             var model = HttpContext.Session.Get<CreateLoanViewModel>("CreateLoanViewModel");
@@ -97,7 +96,7 @@ namespace LibraryAppMVC.Controllers
 
         }
 
-        [Authorize]
+        
         [HttpPost]
         public async Task<IActionResult> AddBooktoCart(int bookId)
         {
@@ -134,6 +133,7 @@ namespace LibraryAppMVC.Controllers
                     //Books = booklist.Where(b => b.Quantita > 0)
                     Books = booklist
                 };
+               
 
             }
 
@@ -160,7 +160,7 @@ namespace LibraryAppMVC.Controllers
 
         }
 
-        [Authorize]
+       
         [HttpGet]
         public async Task<IActionResult> Cart()
         {
@@ -176,7 +176,7 @@ namespace LibraryAppMVC.Controllers
             return View(model);
         }
 
-        [Authorize]
+      
         public async Task<IActionResult> RemoveFromCart(int bookid)
         {
             var model = HttpContext.Session.Get<CreateLoanViewModel>("CreateLoanViewModel");
@@ -194,7 +194,7 @@ namespace LibraryAppMVC.Controllers
             }
         }
 
-        [Authorize]
+
         [HttpPost]
         public async Task<IActionResult> PlaceOrder()
         {
@@ -248,102 +248,6 @@ namespace LibraryAppMVC.Controllers
             
         }
 
-        [Authorize(Roles = SD.Role_Admin)]
-        public async Task<IActionResult> IndexAdmin()
-        {
-
-            var loans = await _loanService.GetAllAsync();
-            return View(loans);
-        }
-
-        [Authorize(Roles = SD.Role_Admin)]
-        public async Task<IActionResult> DetailsAdmin(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            //List<DetailLoanViewModel> loandetails = await _loanService.GetByIdAsync((int)id);
-            var loandetails = await _loanService.GetByIdAsync((int)id);
-
-            if (loandetails == null)
-            {
-                return NotFound();
-            }
-
-            return View(loandetails);
-        }
-
-        public async Task<IActionResult> DeleteAdmin(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var loan = await _loanService.GetByIdAsync((int)id);
-            if (loan == null)
-            {
-                return NotFound();
-            }
-
-            return View(loan);
-        }
-
-
-        // GET: Loans/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var loan = await _context.Loans.FindAsync(id);
-        //    if (loan == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    ViewData["UserId"] = new SelectList(_context.Users, "Id", "Cognome", loan.UserId);
-        //    return View(loan);
-        //}
-
-        // POST: Loans/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,Totale,DataInizio,DataFine,UserId")] Loan loan)
-        //{
-        //    if (id != loan.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(loan);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!LoanExists(loan.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["UserId"] = new SelectList(_context.Users, "Id", "Cognome", loan.UserId);
-        //    return View(loan);
-        //}
 
         //GET: Loans/Delete/5
         public async Task<IActionResult> Delete(int? id)

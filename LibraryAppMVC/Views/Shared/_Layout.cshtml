@@ -36,11 +36,11 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Authors" asp-action="Index">Author</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Loans" asp-action="IndexAdmin">Loan</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="LoansAdmin" asp-action="Index">Loan</a>
                             </li>
                             
                         }
-                        @if(User.Identity.IsAuthenticated==true)
+                        @if(User.IsInRole(SD.Role_User))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Loans" asp-action="Index">My Loans</a>
