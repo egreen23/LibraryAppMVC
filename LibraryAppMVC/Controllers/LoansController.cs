@@ -52,7 +52,6 @@ namespace LibraryAppMVC.Controllers
                 return NotFound();
             }
 
-            //List<DetailLoanViewModel> loandetails = await _loanService.GetByIdAsync((int)id);
             var loandetails = await _loanService.GetByIdAsync((int)id);
 
             if (loandetails == null)
@@ -87,15 +86,9 @@ namespace LibraryAppMVC.Controllers
                     booklist.Add(item);
                 }
 
-                //var cartQuery = from book in booklist
-                //                where term == "" || book.Titolo.ToLowerInvariant().StartsWith(term)
-                //                select book;
-
-
                 model = new CreateLoanViewModel
                 {
                     BooksAddedToCart = new List<LoanItemViewModel>(),
-                    //Books = booklist.Where(b => b.Quantita > 0)
                     Books = booklist
                 };
 
@@ -137,11 +130,6 @@ namespace LibraryAppMVC.Controllers
                     if (item.Quantita == 0) item.OutofStock = true;
                     booklist.Add(item);
                 }
-
-                //var cartQuery = from book in booklist
-                //                where term == "" || book.Titolo.ToLowerInvariant().StartsWith(term)
-                //                select book;
-
 
                 model = new CreateLoanViewModel
                 {
@@ -242,7 +230,6 @@ namespace LibraryAppMVC.Controllers
                 model = new CreateLoanViewModel
                 {
                     BooksAddedToCart = new List<LoanItemViewModel>(),
-                    //Books = booklist.Where(b => b.Quantita > 0)
                     Books = booklist
                 };
                

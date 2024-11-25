@@ -40,10 +40,6 @@
                 <input asp-for="Prezzo" class="form-control" type="number" step=".01"/>
                 <span asp-validation-for="Prezzo" class="text-danger"></span>
             </div>
-            @* <div class="form-group">
-                <label asp-for="AuthorId" class="control-label"></label>
-                <select asp-for="AuthorId" class ="form-control" asp-items="ViewBag.AuthorId"></select>
-            </div> *@
             <div class="form-group">
                 <label asp-for="AuthorId" class="control-label">Autore</label>
                 <select asp-for="AuthorId" class="form-control" asp-items="Model.AuthorsList"></select>
@@ -59,11 +55,11 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-<script>
+@* <script>
     document.querySelector('input[name="Prezzo"]').addEventListener('input', function (event) {
         this.value = this.value.replace(',', '.'); // Replace commas with dots
     });
-</script>
+</script> *@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

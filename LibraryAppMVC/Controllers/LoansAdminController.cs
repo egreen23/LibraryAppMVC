@@ -36,7 +36,6 @@ namespace LibraryAppMVC.Controllers
                 return NotFound();
             }
 
-            //List<DetailLoanViewModel> loandetails = await _loanService.GetByIdAsync((int)id);
             var loandetails = await _loanService.GetByIdAsync((int)id);
 
             if (loandetails == null)

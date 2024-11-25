@@ -29,20 +29,8 @@ namespace LibraryAppMVC.Controllers
         {
             term = string.IsNullOrEmpty(term) ? "" : term.ToLowerInvariant();
             var modelVM = new IndexAuthorViewModel();
-            //modelVM.currentSort = orderBy;
             modelVM.NameSortOrder = string.IsNullOrEmpty(orderBy) ? "name_desc" : "";
             modelVM.DateSortOrder = orderBy == "date" ? "date_desc" : "date";
-
-            //if (term != null)
-            //{
-            //    pageNumber = 1;
-            //}
-            //else
-            //{
-            //    term = currentFilter;
-            //}
-
-            //modelVM.currentFilter = term;
 
             List<Author> autori = await _authorService.GetAllAuthorsAsync();
 
@@ -107,8 +95,6 @@ namespace LibraryAppMVC.Controllers
         }
 
         // POST: Authors/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = SD.Role_Admin)]
@@ -176,8 +162,6 @@ namespace LibraryAppMVC.Controllers
         }
 
         // POST: Authors/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Authorize(Roles = SD.Role_Admin)]
         [HttpPost]
         [ValidateAntiForgeryToken]

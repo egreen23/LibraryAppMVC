@@ -11,10 +11,6 @@ namespace LibraryAppMVC.ViewModels.Loan
         public DateTime DataInizio { get; set; } = DateTime.Now;
         [Display(Name = "Data Fine")]
         public DateTime DataFine { get; set; } = DateTime.Now.AddYears(1);
-
-        //public SelectList? Books { get; set; }
-
-        //public int? BookId { get; set; }
         public IEnumerable<IndexBookViewModel> Books { get; set; }
 
         public List<LoanItemViewModel> BooksAddedToCart { get; set; } = [];

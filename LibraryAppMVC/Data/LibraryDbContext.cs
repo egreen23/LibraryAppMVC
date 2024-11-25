@@ -73,7 +73,28 @@ namespace LibraryAppMVC.Data
                     DoB = DateTime.Parse("1931-12-01"),
                     LuogoNascita = "Birmingham",
                     DoD = DateTime.Parse("1962-02-03")
-                });
+                },
+                new Author
+                {
+                    Id = 48,
+                    Nome = "Marco",
+                    Cognome = "Massafra",
+                    Nazionalita = "italiano",
+                    DoB = DateTime.Parse("1945-02-01"),
+                    LuogoNascita = "Firenze",
+                    DoD = DateTime.Parse("1988-02-03")
+                },
+                new Author
+                {
+                    Id = 49,
+                    Nome = "Giovanni",
+                    Cognome = "Quarta",
+                    Nazionalita = "italiano",
+                    DoB = DateTime.Parse("1966-02-01"),
+                    LuogoNascita = "Torino",
+                    DoD = DateTime.Parse("1999-02-03")
+                }
+                );
 
             modelBuilder.Entity<Book>().HasData(
                 new Book

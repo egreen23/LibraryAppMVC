@@ -59,7 +59,6 @@ namespace LibraryAppMVC.Repositories
                             BookId = book.Id,
                             Prezzo = book.Prezzo
                         };
-            //IEnumerable c = query.ToList();
             return await query.ToArrayAsync();
         }
 
@@ -68,21 +67,5 @@ namespace LibraryAppMVC.Repositories
             return await _context.Loans.AnyAsync(x => x.Id == id);
         }
 
-
-        //public async Task<prova> GetByIdAsync(int id)
-        //{
-        //    var query = from loan in _context.Loans
-        //                join loanbook in _context.LoanBooks on loan.Id equals loanbook.LoanId
-        //                join book in _context.Books on loanbook.BookId equals book.Id into bookgroup
-        //                group loan by loanbook.Id;
-        //    //select new prova
-        //    //{
-        //    //    Totale = loan.Totale,
-        //    //    aBook = bookgroup.ToList()
-        //    //};
-        //    //IEnumerable c = query.ToList();
-        //    var c = query.ToList();
-        //    return new prova();
-        //}
     }
 }

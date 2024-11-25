@@ -15,10 +15,6 @@ namespace LibraryAppMVC.ViewModels.Author
         public string Term { get; set; }
         public string OrderBy { get; set; }
 
-        //public string currentSort { get; set; }
-
-        //public string currentFilter { get; set; }
-
 
     }
 }

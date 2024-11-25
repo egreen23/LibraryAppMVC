@@ -37,6 +37,7 @@ namespace LibraryAppMVC.Controllers
         [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Index()
         {
+
             var books = await _bookService.GetAllAsync();
             List<IndexBookViewModel> booksVM = new List<IndexBookViewModel>();
             foreach (var b in books)
@@ -101,8 +102,6 @@ namespace LibraryAppMVC.Controllers
         }
 
         //// POST: Books/Create
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = SD.Role_Admin)]
@@ -114,8 +113,7 @@ namespace LibraryAppMVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
             //SelectList(IEnumerable, String, String, Object) Inizializza una nuova istanza della SelectList classe usando gli elementi specificati per l'elenco, il campo valore dati, il campo testo dati e un valore selezionato.
-            //ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "Cognome", book.AuthorId); 
-            return View(book);
+            return RedirectToAction(nameof(Create));
         }
 
         //// GET: Books/Edit/5
@@ -127,7 +125,6 @@ namespace LibraryAppMVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            //var book = await _context.Books.FindAsync(id);
             var book = await _bookService.GetByIdAsync((int)id);
             var authors = await _authorService.GetAllAuthorsAsync();
 
@@ -146,29 +143,19 @@ namespace LibraryAppMVC.Controllers
                 Prezzo = book.Prezzo,
                 AuthorsList = new SelectList(authors, "Id", "FullName", book.AuthorId)
             };
-            //ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "Cognome", book.AuthorId);
             return View(updateVM);
         }
 
         //// POST: Books/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Titolo,Quantita,DataPubblicazione,Genere,Prezzo,AuthorId")] Book book)
         {
-            //if (id != book.Id)
-            //{
-            //    return NotFound();
-            //}
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    //    //_context.Update(book);
-                    //    //await _context.SaveChangesAsync();
                     await _bookService.UpdateAsync(id, book);
 
                 }
@@ -186,7 +173,6 @@ namespace LibraryAppMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "Cognome", book.AuthorId);
             return View(book);
         }
 

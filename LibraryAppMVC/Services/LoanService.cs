@@ -99,11 +99,6 @@ namespace LibraryAppMVC.Services
             return await _loanRepo.IsExists(id);
         }
 
-        //public async Task<prova> GetByIdAsync(int id)
-        //{
-        //    return await _loanRepo.GetByIdAsync(id);
-        //}
-
 
     }
 }
