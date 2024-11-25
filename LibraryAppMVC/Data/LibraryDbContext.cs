@@ -13,11 +13,9 @@ namespace LibraryAppMVC.Data
         }
 
         //tabelle
-        //public DbSet<User> Users { get; set; }
-        //public DbSet<UserAddress> UserAddresses { get; set; }
+        public DbSet<Review> Reviews { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Book> Books { get; set; }
-        //public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Loan> Loans { get; set; }
         public DbSet<LoanBook> LoanBooks { get; set; }
 
@@ -25,8 +23,7 @@ namespace LibraryAppMVC.Data
         {
             base.OnModelCreating(modelBuilder);
             //rinomina tabelle nel db in modo siano scirtte al singolare
-            //modelBuilder.Entity<User>().ToTable(nameof(User));
-            //modelBuilder.Entity<UserAddress>().ToTable(nameof(UserAddress));
+            modelBuilder.Entity<Review>().ToTable(nameof(Review));
             modelBuilder.Entity<Author>().ToTable(nameof(Author));
             modelBuilder.Entity<Book>().ToTable(nameof(Book));
             modelBuilder.Entity<ApplicationUser>().ToTable(nameof(ApplicationUser));

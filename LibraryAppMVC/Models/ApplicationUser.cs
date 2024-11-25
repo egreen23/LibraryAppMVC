@@ -17,5 +17,7 @@ namespace LibraryAppMVC.Models
         [Column(TypeName = "date")]
         public DateTime DoB { get; set; }
         public ICollection<Loan>? Loans { get; set; }
+
+        public ICollection<Review>? Reviews { get; set; }
     }
 }

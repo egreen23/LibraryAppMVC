@@ -11,7 +11,7 @@ namespace LibraryAppMVC.Repositories
 
         public AuthorRepository(LibraryDbContext context)
         {
-            _context = context; 
+            _context = context;
         }
 
         public async Task<Author> CreateAsync(Author authorModel)

@@ -27,6 +27,8 @@ namespace LibraryAppMVC.Models
         //many-to-many
         public ICollection<LoanBook>? LoanBooks { get; set; }
 
+        public ICollection<Review>? Reviews { get; set; }
+
 
     }
 }
