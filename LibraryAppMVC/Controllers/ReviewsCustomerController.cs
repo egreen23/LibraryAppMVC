@@ -1,6 +1,8 @@
 ﻿using LibraryAppMVC.IServices;
 using LibraryAppMVC.Models;
+using LibraryAppMVC.Utility;
 using LibraryAppMVC.ViewModels.Reviews;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,13 +10,14 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace LibraryAppMVC.Controllers
 {
+    [Authorize(Roles = SD.Role_User)]
     public class ReviewsCustomerController : Controller
     {
         private readonly IReviewService _reviewService;
         private readonly IBookService _bookService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-
+        
         public ReviewsCustomerController(IReviewService reviewService, IBookService bookService, UserManager<ApplicationUser> userManager)
         {
             _bookService = bookService;
@@ -92,7 +95,6 @@ namespace LibraryAppMVC.Controllers
                 return RedirectToAction(nameof(Index));
 
             }
-            //return View(reviewViewModel);
             return RedirectToAction(nameof(Create));
 
         }
