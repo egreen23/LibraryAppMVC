@@ -26,10 +26,11 @@
 <div class="row">
 
 <form asp-action="Search" method="post">
-    <div class="row">
+        <div class="row d-grid gap-2">
         <div class="col-md-8">
              <input name="term" class="form-control" value="@Model.TermTitle" placeholder="Search by title" />
         </div>
+        
             <div class="col-md-8">
                 <input name="term2" class="form-control" value="@Model.TermAuthor" placeholder="Search by author" />
             </div>
@@ -39,10 +40,13 @@
     </div>
 </form>
 </div>
+
+<hr />
+
 <div class="row">
     @foreach (var b in @Model.Books)
     {
-        <div class="col-md-4">
+        <div class="col-md-4 mb-4">
             <form asp-action="AddBooktoCart" method="post">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
@@ -61,7 +65,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>
 
 @section Scripts {

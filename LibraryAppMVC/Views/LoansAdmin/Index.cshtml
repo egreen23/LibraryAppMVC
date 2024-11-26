@@ -4,7 +4,7 @@
     ViewData["Title"] = "Loans";
 }
 
-<h1>Loans</h1>
+<h1>Prestiti</h1>
 
 @if (Model != null)
 {
@@ -44,8 +44,8 @@
                         @Html.DisplayFor(modelItem => item.Totale)
                     </td>
                     <td>
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-search">Details</i></a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash">Delete</i></a>
                     </td>
                 </tr>
             }

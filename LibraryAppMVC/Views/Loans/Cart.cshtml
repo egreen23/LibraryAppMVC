@@ -1,6 +1,6 @@
 ﻿@model LibraryAppMVC.ViewModels.Loan.CreateLoanViewModel
 
-<h1>My Cart</h1>
+<h1>Carrello</h1>
 
 <!--Form to finalize and create the order-->
 <form asp-action="PlaceOrder" method="post">
@@ -42,4 +42,7 @@
         <input type="submit" value="Place Order" class="btn btn-primary" />
     </div>
 </form>
-<a asp-action="Create" >go back</a> 
+<div class="mt-2">
+    <a asp-action="Create" class="btn btn-secondary">Torna indietro</a>
+</div>
+

@@ -1,4 +1,6 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using LibraryAppMVC.Utility
+@using LibraryAppMVC.ViewModels.Loan
+@using Microsoft.AspNetCore.Identity
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -6,8 +8,22 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-        <a class="nav-link position-relative" asp-action="Cart" asp-controller="Loans">Carrello</a>
+        <li class="nav-item">
+            @{
+                int cartCount = 0;
+                if (Context.Session.Get<CreateLoanViewModel>("CreateLoanViewModel") != null)
+                {
+                    CreateLoanViewModel model = Context.Session.Get<CreateLoanViewModel>("CreateLoanViewModel");
+                    cartCount = model.BooksAddedToCart.Count();
+                }
+            }
+        <a class="nav-link position-relative" asp-action="Cart" asp-controller="Loans">
+                <i class="bi bi-cart2"> Carrello</i>
+                <span class="position-absolute start-100 translate-middle badge rounded-pill bg-success">
+                    @cartCount
+                    <span class="visually-hidden">Cart Quantity</span>
+                </span>
+        </a>
     </li>
     <li class="nav-item">
         <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
