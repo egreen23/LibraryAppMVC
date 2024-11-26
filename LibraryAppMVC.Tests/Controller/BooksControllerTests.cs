@@ -149,7 +149,8 @@ namespace LibraryAppMVC.Tests.Controller
             //act
             var result = await controller.Create(book);
             //Assert
-            var viewResult = Assert.IsType<ViewResult>(result);
+            var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("Create", redirectToActionResult.ActionName);
 
         }
         [Fact]
