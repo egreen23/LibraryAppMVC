@@ -176,6 +176,7 @@ namespace LibraryAppMVC.Controllers
             return View(book);
         }
 
+        //sistemare
         [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Delete(int? id)
         {

@@ -5,7 +5,9 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAppMVC", "LibraryAppMVC\LibraryAppMVC.csproj", "{A0BA4A3C-7145-4219-9E27-6C9A9BEC6445}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryAppMVC.Tests", "LibraryAppMVC.Tests\LibraryAppMVC.Tests.csproj", "{E019C63F-261F-4FCC-AECD-E40CBFD16D1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAppMVC.Tests", "LibraryAppMVC.Tests\LibraryAppMVC.Tests.csproj", "{E019C63F-261F-4FCC-AECD-E40CBFD16D1B}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "LibraryDb", "LibraryDb\LibraryDb.sqlproj", "{CCE2F09C-6969-4921-A0CA-190155D66BCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,12 @@ Global
 		{E019C63F-261F-4FCC-AECD-E40CBFD16D1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E019C63F-261F-4FCC-AECD-E40CBFD16D1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E019C63F-261F-4FCC-AECD-E40CBFD16D1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCE2F09C-6969-4921-A0CA-190155D66BCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCE2F09C-6969-4921-A0CA-190155D66BCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCE2F09C-6969-4921-A0CA-190155D66BCE}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{CCE2F09C-6969-4921-A0CA-190155D66BCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCE2F09C-6969-4921-A0CA-190155D66BCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCE2F09C-6969-4921-A0CA-190155D66BCE}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

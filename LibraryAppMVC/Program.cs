@@ -10,6 +10,12 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using LibraryAppMVC.Utility;
 using LibraryAppMVC.Models;
 using Microsoft.Extensions.Hosting;
+using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations.Internal;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using LibraryAppMVC.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +37,7 @@ builder.Services.AddDbContext<LibraryDbContext>(options => {
 
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<LibraryDbContext>().AddDefaultTokenProviders();
-//builder.Services.AddDefaultIdentity
+
 //sempre dopo addIdentity
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -55,6 +61,7 @@ builder.Services.AddScoped<ILoanRepository, LoanRepository>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 
+
 builder.Services.AddMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -67,11 +74,71 @@ builder.Services.AddSession(options =>
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
+//if (app.Environment.IsDevelopment())
+//{
+//    // Ensure the database is created and apply only the AddAuthorTable migration
+//    using (var scope = app.Services.CreateScope())
+//    {
+//        var dbContext = scope.ServiceProvider.GetRequiredService<LibraryDbContext>();
+
+//        // Ensure the database is created if it doesn't exist
+//        dbContext.Database.EnsureCreated();
+
+//        // Apply the specific migration
+//        var pendingMigrations = dbContext.Database.GetPendingMigrations();
+
+//        if (pendingMigrations.Contains("AddAuthorTable"))
+//        {
+//            // Apply the specific migration manually
+//            dbContext.Database.Migrate();  // This will apply the pending migrations including AddAuthorTable
+//        }
+//    }
+//}
+
+//punto 2 - creare il db con una migration di default
+//if (app.Environment.IsDevelopment())
+//{
+//    using (var scope = app.Services.CreateScope())
+//    {
+//        var dbContext = scope.ServiceProvider.GetRequiredService<LibraryDbContext>();
+
+//        // check se db non esiste
+//        if(!dbContext.Database.GetService<IRelationalDatabaseCreator>().Exists())
+//        {
+//            dbContext.Database.GetInfrastructure().GetService<IMigrator>().Migrate("20241108145433_AddAuthorTable");
+//            //dbContext.Database.GetInfrastructure().GetService<IMigrator>().Migrate("20241108150908_AddBookTable");
+//        }
+//    }
+//}
+
+//punto 1 - auto-migration 
+if (app.Environment.IsDevelopment())
 {
-    var db = scope.ServiceProvider.GetRequiredService<LibraryDbContext>();
-    db.Database.Migrate();
+    using IServiceScope scope = app.Services.CreateScope();
+     
+    AutoMigration.ApplyMigration<LibraryDbContext>(scope);
 }
+
+//punto 3 - check migration da script sql in una cartella
+//#region checkmigrations
+//if (app.Environment.IsDevelopment())
+//{
+//    using (var scope = app.Services.CreateScope())
+//    {
+//        var dbContext = scope.ServiceProvider.GetRequiredService<LibraryDbContext>();
+
+//        var migrationChecker = new CheckMigrations(dbContext);
+
+//        string migrationsFolderPath = @"C:\Users\niko.gentile\Desktop\scripts";  
+//        string outputFilePath = @"C:\Users\niko.gentile\Desktop\scripts\migration_results.txt";   
+
+//        // Check migrations and write results to a text file
+//        migrationChecker.CheckAndWriteToFile(migrationsFolderPath, outputFilePath);  
+//    }
+    
+//}
+//#endregion 
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
