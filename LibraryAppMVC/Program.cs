@@ -112,32 +112,34 @@ var app = builder.Build();
 //}
 
 //punto 1 - auto-migration 
-if (app.Environment.IsDevelopment())
-{
-    using IServiceScope scope = app.Services.CreateScope();
-     
-    AutoMigration.ApplyMigration<LibraryDbContext>(scope);
-}
-
-//punto 3 - check migration da script sql in una cartella
-//#region checkmigrations
 //if (app.Environment.IsDevelopment())
 //{
-//    using (var scope = app.Services.CreateScope())
-//    {
-//        var dbContext = scope.ServiceProvider.GetRequiredService<LibraryDbContext>();
-
-//        var migrationChecker = new CheckMigrations(dbContext);
-
-//        string migrationsFolderPath = @"C:\Users\niko.gentile\Desktop\scripts";  
-//        string outputFilePath = @"C:\Users\niko.gentile\Desktop\scripts\migration_results.txt";   
-
-//        // Check migrations and write results to a text file
-//        migrationChecker.CheckAndWriteToFile(migrationsFolderPath, outputFilePath);  
-//    }
-    
+//    using IServiceScope scope = app.Services.CreateScope();
+     
+//    AutoMigration.ApplyMigration<LibraryDbContext>(scope);
 //}
-//#endregion 
+
+//punto 3 - check migration da script sql in una cartella
+#region checkmigrations
+if (app.Environment.IsDevelopment())
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<LibraryDbContext>();
+
+        var migrationChecker = new CheckMigrations(dbContext);
+
+        var abs_path = app.Environment.ContentRootPath;
+
+        string migrationsFolderPath = Path.Combine(abs_path, "scripts"); ;
+        string outputFilePath = Path.Combine(abs_path, "scripts", "migration_results.txt");
+
+        // Check migrations and write results to a text file
+        migrationChecker.CheckAndWriteToFile(migrationsFolderPath, outputFilePath);
+    }
+
+}
+#endregion 
 
 
 // Configure the HTTP request pipeline.
